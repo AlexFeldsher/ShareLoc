@@ -8,7 +8,7 @@
     tools:context="com.hackthon.shareloc.MainActivity">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/rv_of_photos"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:layout_constraintTop_creator="1"
@@ -28,12 +28,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="1.0">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_of_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <Button
             android:id="@+id/share_button"
-            android:layout_width="46dp"
-            android:layout_height="29dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -47,6 +51,6 @@
             app:layout_constraintVertical_bias="1.0"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintTop_creator="1"
-            />
+            android:layout_marginEnd="8dp"/>
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
