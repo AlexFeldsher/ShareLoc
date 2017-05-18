@@ -1,20 +1,36 @@
 package com.hackthon.shareloc;
 
+
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+        Button button;
+
+
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
 
     private static class Photo {
         String id;
@@ -47,13 +63,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(PhotoVH holder, int position) {
+            public void onBindViewHolder(PhotoVH holder, int position)
+            {
                 if(photos.get(position).id.equals(""))
                 {
                     holder.photo.setVisibility(View.GONE);
                 }
                 else
                 {
+                    holder.photo.setVisibility(View.VISIBLE);
                     Picasso.with(MainActivity.this).load(photos.get(position).id).into(holder.photo);
                 }
                 if(photos.get(position).title.equals(""))
@@ -62,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    holder.title.setVisibility(View.VISIBLE);
                     holder.title.setText(photos.get(position).title);
                 }
-
             }
 
             @Override
@@ -78,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         rv.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.bottom = 25; // Gap of 16px
+                outRect.bottom = 30; // Gap of 16px
             }
         });
 
@@ -89,8 +107,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 5; i++) {
             Photo photo = new Photo();
             photo.id = "http://i.imgur.com/1JrhixL.jpg";
-            photo.title = "this is a long text that I need to check if and how it looks" +
-                    " in th fucking app";
+            photo.title = "cxczxczxczxcz";
             photos.add(photo); // Add photo to list
         }
 
