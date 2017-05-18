@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         rv.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.bottom = 16; // Gap of 16px
+                outRect.bottom = 25; // Gap of 16px
             }
         });
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Photo> photos = new ArrayList<Photo>();
         for (int i = 0; i < 5; i++) {
             Photo photo = new Photo();
-            photo.id = "";
+            photo.id = "http://i.imgur.com/1JrhixL.jpg";
             photo.title = "this is a long text that I need to check if and how it looks" +
                     " in th fucking app";
             photos.add(photo); // Add photo to list
