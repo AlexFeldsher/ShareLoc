@@ -2,7 +2,7 @@ package com.hackthon.shareloc;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,31 +13,47 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    final List<Photo> photos = new ArrayList<Photo>();
-
-    private static class Photo
-    {
+    private static class Photo {
         String id;
         String title;
     }
 
-    private static class PhotoVH extends RecyclerView.ViewHolder{
+
+    private static class PhotoVH extends RecyclerView.ViewHolder {
         ImageView photo;
         TextView title;
 
-        public PhotoVH(View itemView){
+        public PhotoVH(View itemView) {
             super(itemView);
         }
     }
-    private void render(final List<Photo> photos){
+
+
+
+    private void render(final List<Photo> photos) {
         RecyclerView rv = (RecyclerView)findViewById(R.id.rv_of_photos);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.Adapter<PhotoVH> adapter = new RecyclerView.Adapter<PhotoVH>(){
+
+        RecyclerView.Adapter<PhotoVH> adapter = new RecyclerView.Adapter<PhotoVH>() {
             @Override
             public PhotoVH onCreateViewHolder(ViewGroup parent, int viewType) {
                 PhotoVH vh = new PhotoVH(getLayoutInflater().inflate(R.layout.item, null));
@@ -61,24 +77,27 @@ public class MainActivity extends AppCompatActivity {
 
         rv.setAdapter(adapter);
 
-//        adapter.notifyDataSetChanged();
-
         rv.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                       RecyclerView.State state ) {
-                outRect.bottom = 16;
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.bottom = 16; // Gap of 16px
             }
         });
+
+    }
+
+    private OkHttpClient httpClient;
+
+    private void fetchData() {
+        httpClient = new OkHttpClient.Builder().build();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Handler handler = new Handler();
-//        List<Photo> photos = fetchData();
 
+        fetchData();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -88,4 +107,3 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
-
