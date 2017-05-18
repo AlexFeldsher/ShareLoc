@@ -1,8 +1,8 @@
 package com.hackthon.shareloc;
 
+
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,24 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(PhotoVH holder, int position) {
-                Picasso.with(MainActivity.this).load("https://i.imgur.com/" +
-                        photos.get(position).id + ".jpg").into(holder.photo);
+                Picasso.with(MainActivity.this).load(photos.get(position).id).into(holder.photo);
                 holder.title.setText(photos.get(position).title);
             }
 
@@ -86,10 +70,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private OkHttpClient httpClient;
+    private ArrayList<Photo> fetchData() {
+        ArrayList<Photo> photos = new ArrayList<Photo>();
+        for (int i = 0; i < 5; i++) {
+            Photo photo = new Photo();
+            photo.id = "http://i.imgur.com/1JrhixL.jpg";
+            photo.title = "this is an example";
+            photos.add(photo); // Add photo to list
+        }
 
-    private void fetchData() {
-        httpClient = new OkHttpClient.Builder().build();
+
+        return photos;
     }
 
     @Override
@@ -98,12 +89,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fetchData();
+
+        final ArrayList<Photo> photos = fetchData();
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 render(photos);
             }
         });
-
     }
 }
