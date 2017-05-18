@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import com.squareup.picasso.Picasso;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
             super(itemView);
         }
     }
-
     private void render(final List<Photo> photos){
         RecyclerView rv = (RecyclerView)findViewById(R.id.rv_of_photos);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -91,3 +88,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
