@@ -31,43 +31,7 @@ public class Main2Activity extends AppCompatActivity {
         EditText text = (EditText) findViewById(R.id.editText);
         str = text.getText().toString();
 
-        //GetConnection getConnection = new GetConnection();
-        //getConnection.execute(this.getApplicationContext());
-        //Log.d("get", "got here");
-        //PostConnection postConnection = new PostConnection();
-        //postConnection.execute(this.getApplicationContext());
-        //Log.d("post", "got here");
     }
-
-    /**
-    private class GetConnection extends AsyncTask<Context, Void, String>
-    {
-        @Override
-        protected String doInBackground(Context[] param) {
-            ServerConnection serverConnection = new ServerConnection(param[0]);
-            try {
-                String k = serverConnection.get();
-            } catch (Exception e) {
-                Log.d("get", e.toString());
-            }
-            return "";
-        }
-    };
-
-    private class PostConnection extends AsyncTask<Context, Void, String>
-    {
-        @Override
-        protected String doInBackground(Context[] param) {
-            ServerConnection serverConnection = new ServerConnection(param[0]);
-            try {
-                int k = serverConnection.post("text", "image");
-            } catch (Exception e) {
-                Log.d("get", e.toString());
-            }
-            return "";
-        }
-    };
-     */
 
     public void shareButten(View v) {
         String msg;

@@ -91,23 +91,32 @@ public class ServerConnection {
         Request request = new Request.Builder().url("http://ec2-52-56-159-238.eu-west-2.compute.amazonaws.com/?lat="
                 + coords.get(0) + "&long=" + coords.get(1)).build();
         Response response2 = client.newCall(request).execute();
-        Log.d("res1234321", response2.body().string());
+        //Log.d("res1234321", response2.body().string());
         return parsePosts(response2.body().string());
     }
 
 
     private ArrayList<JsonObj> parsePosts(String posts) {
-        Log.d("behere", "h");
+        Log.d("parser", posts);
         ArrayList<JsonObj> list = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("\"gpslat\":\"(.*?)\",|\"gpslong\":\"(.*?)\",|\"text\":\"(.*?)\",|\"image\":\"(.*?)\",");
+        Pattern pattern = Pattern.compile("\\{.*?\\}");
         Matcher matcher = pattern.matcher(posts);
 
+        ArrayList<JSONObject> array = new ArrayList<>();
+        Log.d("WHILE", "here1");
         while (matcher.find()) {
-            JsonObj obj = new JsonObj(matcher.group(0), matcher.group(1), matcher.group(3), matcher.group(2));
-            list.add(obj);
+            Log.d("WHILE", "here2");
+            try{
+                JSONObject obj = new JSONObject(posts.substring(matcher.start(), matcher.end()));
+                list.add(new JsonObj(obj.getString("gpslat"),obj.getString("gpslong"), obj.getString("text"), obj.getString("image")));
+                Log.d("JSON ARRAY", array.get(array.size() - 1).toString());
+            } catch (Exception e)
+            {
+                Log.d("JSON", "exception");
+            }
         }
-        Log.d("jobj", list.toString());
+
         return list;
     }
 

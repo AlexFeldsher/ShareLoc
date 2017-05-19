@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     SimpleLocation location;
     TextView text;
+    ArrayList<JsonObj> photos = new ArrayList<>();
 
     //    Button button;
 //
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void render(final List<Photo> photos) {
+    private void render(final List<JsonObj> photos2) {
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv_of_photos);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -81,17 +82,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(PhotoVH holder, int position) {
-                if (photos.get(position).id.equals("")) {
+                Log.d("ADAPTER", photos.get(position)._text + " " + photos.get(position)._image);
+
+                if (photos.get(position)._image != null && photos.get(position)._image.equals("")) {
                     holder.photo.setVisibility(View.GONE);
                 } else {
                     holder.photo.setVisibility(View.VISIBLE);
-                    Picasso.with(MainActivity.this).load(photos.get(position).id).into(holder.photo);
+                    //Picasso.with(MainActivity.this).load(photos.get(position)._image).into(holder.photo);
+                    Picasso.with(MainActivity.this).load("http://i.imgur.com/GwNnAcZ.jpg").into(holder.photo);
                 }
-                if (photos.get(position).title.equals("")) {
+                if (photos.get(position)._text != null && photos.get(position)._text.equals("")) {
                     holder.title.setVisibility(View.GONE);
                 } else {
                     holder.title.setVisibility(View.VISIBLE);
-                    holder.title.setText(photos.get(position).title);
+                    holder.title.setText(photos.get(position)._text);
                 }
             }
 
@@ -100,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
                 return photos.size();
             }
         };
+        Log.d("setAdapter", Integer.toString(photos.size()));
+        while(photos.size() == 0)
+        {
+
+        }
         rv.setAdapter(adapter);
 
         rv.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -110,40 +119,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<Photo> fetchData() {
-        ArrayList<Photo> photos = new ArrayList<Photo>();
-        for (int i = 0; i < 5; i++) {
-            Photo photo = new Photo();
-            photo.id = "http://i.imgur.com/1JrhixL.jpg";
-            photo.title = "cxczxczxczxcz";
-            photos.add(photo); // Add photo to list
-        }
-
-
-        return photos;
-    }
-
-
-    /*
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("create", "creating app");
-        setContentView(R.layout.activity_main);
+    private void fetchData() {
 
         GetConnection getConnection = new GetConnection();
         getConnection.execute(this.getApplicationContext());
-        Log.d("get", "got here");
 
-        PostConnection postConnection = new PostConnection();
-        postConnection.execute(this.getApplicationContext());
-        Log.d("post", "got here");
     }
 
-*/
-    //public void onClick2() {
-    //}
 
    public void onClick(View v) {
        Log.d("OnClick", "Pushed Button");
@@ -158,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Context[] param) {
             ServerConnection serverConnection = new ServerConnection(param[0]);
             try {
-                ArrayList<JsonObj> k = serverConnection.get();
+                 photos = serverConnection.get();
+                Log.e("ASYNC", Integer.toString(photos.size()));
             } catch (Exception e) {
                 Log.d("get", e.toString());
             }
@@ -166,19 +149,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-        private class PostConnection extends AsyncTask<Context, Void, String>
-    {
-        @Override
-        protected String doInBackground(Context[] param) {
-            ServerConnection serverConnection = new ServerConnection(param[0]);
-            try {
-                int k = serverConnection.post("text", "image");
-            } catch (Exception e) {
-                Log.d("get", e.toString());
-            }
-            return "";
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,11 +157,10 @@ public class MainActivity extends AppCompatActivity {
 
         fetchData();
 
-        final ArrayList<Photo> photos = fetchData();
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.d("RENDER", Integer.toString(photos.size()));
                 render(photos);
             }
         });

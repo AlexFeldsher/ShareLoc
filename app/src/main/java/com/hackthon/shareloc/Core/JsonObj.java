@@ -5,7 +5,7 @@ public class JsonObj {
     public String _gpslat;
     public String _image;
     public String _text;
-    public JsonObj(String gpslat, String gpslong, String image, String text ){
+    public JsonObj(String gpslat, String gpslong, String text, String image ){
         _gpslat = gpslat;
         _gpslong = gpslong;
         _image = image;
