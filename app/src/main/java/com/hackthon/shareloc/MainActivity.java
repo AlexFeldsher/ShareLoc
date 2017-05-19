@@ -84,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
             public void onBindViewHolder(PhotoVH holder, int position) {
                 Log.d("ADAPTER", photos.get(position)._text + " " + photos.get(position)._image);
 
-                if (photos.get(position)._image != null && photos.get(position)._image.equals("")) {
+                if (photos.get(position)._image.equals("null") || photos.get(position)._image.equals("")) {
                     holder.photo.setVisibility(View.GONE);
                 } else {
                     holder.photo.setVisibility(View.VISIBLE);
-                    //Picasso.with(MainActivity.this).load(photos.get(position)._image).into(holder.photo);
-                    Picasso.with(MainActivity.this).load("http://i.imgur.com/GwNnAcZ.jpg").into(holder.photo);
+                    Picasso.with(MainActivity.this).load(photos.get(position)._image).into(holder.photo);
+                    //Picasso.with(MainActivity.this).load("http://i.imgur.com/GwNnAcZ.jpg").into(holder.photo);
                 }
-                if (photos.get(position)._text != null && photos.get(position)._text.equals("")) {
+                if (photos.get(position)._text == ("null") || photos.get(position)._text.equals("")) {
                     holder.title.setVisibility(View.GONE);
                 } else {
                     holder.title.setVisibility(View.VISIBLE);

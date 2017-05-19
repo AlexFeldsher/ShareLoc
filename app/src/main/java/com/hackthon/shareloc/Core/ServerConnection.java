@@ -58,6 +58,7 @@ public class ServerConnection {
         ArrayList<String> coords = getGPS();
         // TODO: parameters
         String body = String.format("{\"gpslat\": \"%s\", \"gpslong\": \"%s\", \"text\": \"%s\", \"image\": \"%s\"}", coords.get(0), coords.get(1), text, imagePath);
+        Log.d("JSON_STRING", body);
         try {
 
             url = new URL("http://ec2-52-56-159-238.eu-west-2.compute.amazonaws.com/addPost");

@@ -58,6 +58,9 @@ public class Post {
         @Override
         public void failure(RetrofitError error) {
             /** failed upload */
+            PostConnection postConnection = new PostConnection();
+            postConnection.execute(context);
+
         }
     }
 
@@ -69,6 +72,7 @@ public class Post {
 
         if (imgPath == null)
         {
+            Log.d("IMG_PATH", Boolean.toString(imgPath==null));
             imgLink = "";
         } else {
             imgFile = new File(imgPath);
