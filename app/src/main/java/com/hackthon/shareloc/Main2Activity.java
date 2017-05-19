@@ -22,21 +22,25 @@ public class Main2Activity extends AppCompatActivity {
     private static final int SELECTED_IMAGE = 1;
     private static final String TAG = "Main2Activity";
     ImageView imgView = null;
+    String imagePath = "";
     String str = "";
+    EditText text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         imgView = (ImageView) findViewById(R.id.imageView);
-        EditText text = (EditText) findViewById(R.id.editText);
-        str = text.getText().toString();
-
+        text = (EditText) findViewById(R.id.editText);
     }
 
-    public void shareButten(View v) {
+    public void shareButton(View v) {
         String msg;
-        //Post post = new Post(str, this.getApplicationContext());
+        str = text.getText().toString();
+        Log.d("POST", str);
+        Post post = new Post();
+        Log.d("POST", imagePath);
+        post.post(str, imagePath, this.getApplicationContext());
         Intent intent = new Intent(Main2Activity.this, MainActivity.class);
         int res = 0;
         if (imgView == null && str == "")
@@ -73,11 +77,12 @@ public class Main2Activity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == SELECTED_IMAGE) {
             Uri selectedImage = data.getData(); // Get the url from data
             if (selectedImage != null) {
-                String imagePath = getPath(selectedImage);
+                imagePath = getPath(selectedImage);
                 Log.i(TAG, "Image Path : " + imagePath);
                 imgView.setImageURI(selectedImage); // Set the image in ImageView
             }
         }
+        Log.d("IMAGE", "here");
     }
 
     public String getPath(Uri selectedImage)

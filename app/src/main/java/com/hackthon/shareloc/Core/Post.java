@@ -15,9 +15,10 @@ import retrofit.mime.TypedFile;
 
 public class Post {
 
+    private Context context;
     private String msg;
     private String imgLink;
-    private File imgFile;
+    private File imgFile = null;
     private Upload upload;
     private ImageResponse imageResponse;
 
@@ -44,8 +45,11 @@ public class Post {
                 */
                 return;
             }
-            Log.d("IMGUR", imageResponse.data.link);
+            //Log.d("IMGUR", imageResponse.data.link);
             imgLink = imageResponse.data.link;
+            PostConnection postConnection = new PostConnection();
+            postConnection.execute(context);
+
             /*
             Notify image was uploaded successfully
             */
@@ -59,29 +63,30 @@ public class Post {
 
     public int post(String text, String imgPath, Context context)
     {
+        Log.d("TEXT", text);
         msg = text;
-
-        imgFile = new File(imgPath);
+        this.context = context;
 
         if (imgPath == null)
         {
             imgLink = "";
         } else {
+            imgFile = new File(imgPath);
             createUpload(imgFile);
             RestAdapter restAdapter = buildRestAdapter();
 
-        restAdapter.create(ImgurAPI.class).postImage(
-            Constants.getClientAuth(),
-            upload.title,
-            upload.description,
-            upload.albumId,
-            null,
-            new TypedFile("image/*", upload.image),
-            new Call());
+            restAdapter.create(ImgurAPI.class).postImage(
+                Constants.getClientAuth(),
+                upload.title,
+                upload.description,
+                upload.albumId,
+                null,
+                new TypedFile("image/*", upload.image),
+                new Call());
+
+            Log.d("IMAGE_ADAPTER", "here");
         }
 
-        PostConnection postConnection = new PostConnection();
-        postConnection.execute(context);
 
         // TODO
         return 0;
@@ -93,6 +98,7 @@ public class Post {
         protected String doInBackground(Context[] param) {
             ServerConnection serverConnection = new ServerConnection(param[0]);
             try {
+                //Log.d("FUCK", Boolean.toString(imgLink==null));
                 int k = serverConnection.post(msg, imgLink);
             } catch (Exception e) {
                 Log.d("get", e.toString());
