@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.hackthon.shareloc.Core.Post;
 import com.hackthon.shareloc.Core.ServerConnection;
 
 
@@ -35,6 +36,7 @@ public class Main2Activity extends AppCompatActivity {
 
     public void shareButten(View v) {
         String msg;
+        //Post post = new Post(str, this.getApplicationContext());
         Intent intent = new Intent(Main2Activity.this, MainActivity.class);
         int res = 0;
         if (imgView == null && str == "")
